@@ -1,0 +1,18 @@
+{
+  "name": "lost-and-found",
+  "version": "1.0.0",
+  "description": "A full-stack campus item recovery web application built with HTML, Tailwind CSS, JavaScript, Python (Flask), and SQLite for Shri Ramswaroop Memorial University (SRMU).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0",
+    "mongoose": "^9.13.1",
+    "multer": "^2.5.0"
+  }
+}
