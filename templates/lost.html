@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost Items Portal - Shri Ramswaroop Memorial University</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top right, #2a0a18, #08182e 50%, #030914 100%);
+            overflow-x: hidden;
+        }
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+            animation: floatOrb 9s ease-in-out infinite alternate;
+        }
+        @keyframes floatOrb {
+            from { transform: translateY(0px) scale(1); }
+            to { transform: translateY(-35px) scale(1.1); }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.65);
+        }
+        .item-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(248, 113, 113, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px -10px rgba(239, 68, 68, 0.35);
+            border-color: rgba(248, 113, 113, 0.6);
+        }
+        .input-dark {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+        }
+        .input-dark::placeholder {
+            color: #94a3b8;
+        }
+        .input-dark:focus {
+            outline: none;
+            border-color: #f87171;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+        }
+        .btn-glow-red {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.55);
+            transition: all 0.3s ease;
+        }
+        .btn-glow-red:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(239, 68, 68, 0.8);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white relative">
+
+    <!-- Glowing Background Orbs -->
+    <div class="orb w-96 h-96 bg-red-600 top-10 right-10"></div>
+    <div class="orb w-96 h-96 bg-blue-600 bottom-10 left-10"></div>
+
+    <!-- University Header -->
+    <nav class="relative z-10 bg-slate-950/60 backdrop-blur-md border-b border-white/10 shadow-xl">
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <img src="/static/logo.png" alt="SRMU Logo" class="w-11 h-11 rounded-xl object-cover border border-amber-400 shadow">
+                <div>
+                    <h1 class="text-sm sm:text-base font-bold text-amber-400 uppercase tracking-wide">Shri Ramswaroop Memorial University</h1>
+                    <p class="text-xs text-slate-300">SRMU Campus Lost & Found Portal</p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <a href="/" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition">Home</a>
+                <a href="/lost" class="bg-gradient-to-r from-red-600 to-rose-600 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow-lg shadow-red-600/30">Lost Items</a>
+                <a href="/found" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition">Found Items</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="relative z-10 max-w-5xl mx-auto p-6">
+        <!-- Page Title Banner -->
+        <div class="text-center mb-8">
+            <span class="text-xs uppercase tracking-[0.25em] text-red-400 font-semibold">Campus Recovery Desk</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Lost Items <span class="text-red-400">Portal</span></h2>
+            <p class="text-slate-300 text-xs sm:text-sm mt-1">Register your misplaced item with details & photo so anyone who finds it can reach you quickly.</p>
+        </div>
+
+        <!-- Lost Form Glass Panel -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl mb-8">
+            <h3 class="text-lg font-bold text-red-400 mb-5 flex items-center gap-2 border-b border-white/10 pb-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                Report a Lost Item
+            </h3>
+
+            <form id="lostForm" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">1. Name of Person Whose Item Lost</label>
+                    <input type="text" name="person_name" required placeholder="Enter your full name" class="w-full input-dark p-3 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">2. Mobile No</label>
+                    <input type="tel" name="mobile_no" required placeholder="Enter mobile number" class="w-full input-dark p-3 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">3. Location From Where Item Lost</label>
+                    <input type="text" name="location" required placeholder="e.g., Central Library, Canteen, Block B" class="w-full input-dark p-3 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">4. Item Which is Lost</label>
+                    <input type="text" name="item_name" required placeholder="e.g., Black Dell Charger, ID Card" class="w-full input-dark p-3 rounded-xl text-sm">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">5. Photo of Lost Item</label>
+                    <input type="file" name="photo" accept="image/*" class="w-full input-dark p-2.5 rounded-xl text-sm file:mr-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700">
+                </div>
+                <button type="submit" class="md:col-span-2 btn-glow-red text-white py-3.5 rounded-xl font-bold tracking-wide text-sm sm:text-base">
+                    Submit Lost Report
+                </button>
+            </form>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="mb-6">
+            <input type="text" id="searchInput" oninput="renderItems()" placeholder="Search lost item, student name, or campus location..." class="w-full glass-card text-white placeholder-slate-400 p-4 rounded-2xl text-sm focus:outline-none focus:border-red-400">
+        </div>
+
+        <!-- Lost Items Grid -->
+        <div id="itemsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <script>
+        let allItems = [];
+
+        async function loadItems() {
+            const res = await fetch('/api/items/Lost');
+            allItems = await res.json();
+            renderItems();
+        }
+
+        function renderItems() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allItems.filter(i =>
+                i.item_name.toLowerCase().includes(q) ||
+                i.location.toLowerCase().includes(q) ||
+                i.person_name.toLowerCase().includes(q)
+            );
+
+            const list = document.getElementById('itemsList');
+            if (filtered.length === 0) {
+                list.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 glass-card rounded-2xl">No lost items reported yet.</p>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map(item => `
+                <div class="item-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                    ${item.photo_path ? `<img src="${item.photo_path}" class="w-full h-48 object-cover border-b border-white/10">` : `<div class="w-full h-36 bg-slate-900/80 flex items-center justify-center text-slate-500 text-xs border-b border-white/10">No Photo Uploaded</div>`}
+                    <div class="p-5 flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30">Lost</span>
+                                <span class="text-xs font-semibold ${item.status === 'Resolved' ? 'text-emerald-400' : 'text-amber-400'}">• ${item.status}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2 ${item.status === 'Resolved' ? 'line-through text-slate-500' : ''}">${item.item_name}</h3>
+                            <p class="text-xs text-slate-300 mb-1"><span class="text-slate-400">Lost By:</span> ${item.person_name}</p>
+                            <p class="text-xs text-slate-300 mb-1"><span class="text-slate-400">Mobile No:</span> ${item.mobile_no}</p>
+                            <p class="text-xs text-slate-300"><span class="text-slate-400">Location:</span> ${item.location}</p>
+                        </div>
+                        
+                        <div class="flex gap-2 mt-5 pt-3 border-t border-white/10">
+                            ${item.status === 'Active' ? `<button onclick="resolveItem(${item._id})" class="flex-1 bg-emerald-600/90 hover:bg-emerald-500 text-white text-xs font-semibold py-2 rounded-xl transition">Mark Resolved</button>` : ''}
+                            <button onclick="deleteItem(${item._id})" class="bg-red-500/15 hover:bg-red-500/30 text-red-400 border border-red-500/30 text-xs font-semibold px-3.5 py-2 rounded-xl transition">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('lostForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            formData.append('category', 'Lost');
+
+            await fetch('/api/items', { method: 'POST', body: formData });
+            e.target.reset();
+            loadItems();
+        });
+
+        async function resolveItem(id) {
+            await fetch(`/api/items/${id}/resolve`, { method: 'PUT' });
+            loadItems();
+        }
+
+        async function deleteItem(id) {
+            if (!confirm("Delete this record?")) return;
+            await fetch(`/api/items/${id}`, { method: 'DELETE' });
+            loadItems();
+        }
+
+        loadItems();
+    </script>
+</body>
+</html>
