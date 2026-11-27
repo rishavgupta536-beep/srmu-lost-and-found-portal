@@ -3,8 +3,8 @@
 A full-stack campus item recovery web application built with HTML, Tailwind CSS, JavaScript, Node.js, Express.js, and MongoDB for Shri Ramswaroop Memorial University (SRMU).
 
 ## Submitted By
-* **Name:** Rishav Prakash Gupta and Swapnil Prakash Gupta
-* **Roll No:** 202410101110244 and 202410101110245
+* **Name:** Rishav Prakash Gupta
+* **Roll No:** 202410101110244
 * **Course:** B.Tech Computer Science and Engineering (3rd Year), Group 59, 50 — Shri Ramswaroop Memorial University
 * **Subject:** Full Stack Web Development
 
